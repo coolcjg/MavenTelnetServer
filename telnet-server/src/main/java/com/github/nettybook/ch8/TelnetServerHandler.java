@@ -1,17 +1,20 @@
+package com.github.nettybook.ch8;
 import java.net.InetAddress;
 import java.util.Date;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+@Sharable
 public class TelnetServerHandler extends SimpleChannelInboundHandler<String>{
 	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception{
-		ctx.write("È¯¿µÇÕ´Ï´Ù. " + InetAddress.getLocalHost().getHostName() + " ¿¡ Á¢¼ÓÇÏ¼Ì½À´Ï´Ù!\r\n");
-		ctx.write("ÇöÀç ½Ã°£Àº " + new Date() + " ÀÔ´Ï´Ù. \r\n");
+		ctx.write("ì ‘ì† í™˜ì˜. " + InetAddress.getLocalHost().getHostName() + "ìœ¼ë¡œ ì ‘ì†!\r\n");
+		ctx.write("í˜„ì¬ë‚ ì§œëŠ”  " + new Date() + "ì…ë‹ˆë‹¤. \r\n");
 		ctx.flush();
 	}
 	
@@ -21,13 +24,13 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String>{
 		boolean close = false;
 		
 		if(request.isEmpty()) {
-			response = "¸í·ÉÀ» ÀÔ·ÂÇØ ÇØÁÖ¼¼¿ä.\r\n";
+			response = "ë¹„ì—ˆìŠµë‹ˆë‹¤..\r\n";
 		}
 		else if("bye".contentEquals(request.toLowerCase())) {
-			response = "ÁÁÀº ÇÏ·ç µÇ¼¼¿ä!! \r\n";
+			response = "ë°”ì´!!! \r\n";
 			close = true;
 		}else {
-			response = "ÀÔ·ÂÇÏ½Å ¸í·ÉÀÌ '" +  request + " '¤·ÀÔ´Ï±î? \r\n";
+			response = "ì…ë ¥ ë¬¸ìëŠ” '" +  request + " 'ì…ë‹ˆê¹Œ? \r\n";
 		}
 		ChannelFuture future = ctx.write(response);
 		
